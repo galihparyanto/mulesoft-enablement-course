@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:fakestore-carts-prc-api="http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api"
+	xmlns:fakestore-products-prc-api="http://www.mulesoft.org/schema/mule/fakestore-products-prc-api"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/fakestore-products-prc-api http://www.mulesoft.org/schema/mule/fakestore-products-prc-api/current/mule-fakestore-products-prc-api.xsd
+http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api/current/mule-fakestore-carts-prc-api.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get-all-products-flow" doc:id="d99272d4-8d9a-4ad5-b3b1-c0498a91f4dc" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="36e31e0a-9e5b-42f4-a08c-d5eff2334d15" message='#["Start calling Get All Products"]'/>
+		<try doc:name="Try" doc:id="52438d3c-a8c4-4cf3-bd6a-c1f44f0fd699">
+				<fakestore-products-prc-api:get-all-available-products doc:name="Get All Products" doc:id="c232f29f-6809-4ae5-a299-82d72965ebe9" config-ref="Fakestore_Products_Prc_API_Config" x-correlation-id="#[vars.transactionId]" page="#[vars.pageNum]" size="#[vars.pageSize]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" target="data">
+				</fakestore-products-prc-api:get-all-available-products>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="6987b92e-3fa5-465a-9267-11344ba9c3fe" >
+			<ee:message >
+				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="dcb8cdf8-59a3-4783-a2e1-28d325f31b0c" message='#["End calling Get All Products"]'/>
+	</flow>
+	<flow name="get-product-by-id-flow" doc:id="cdf7bd14-c076-4e35-8569-711c37d22e2a" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="3966a52a-d00f-4be7-b23a-b1aaffdffc5f" message='#["Start calling Get Product Detail"]'/>
+		<try doc:name="Try" doc:id="b3600482-ae81-4610-8a2c-5da2a2b44b63">
+				<fakestore-products-prc-api:get-product-detail doc:name="Get Product Detail" doc:id="cf28c7cb-f150-4eb6-bfb3-67329f68e780" config-ref="Fakestore_Products_Prc_API_Config" id="#[vars.productId]" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" target="data"/>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="ca59407b-fd37-4616-899e-6202a9922fa3" >
+			<ee:message >
+				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="fd1a8ef4-dd92-493c-bb70-cf15359e3d25" message='#["End calling Get Product Detail"]'/>
+	</flow>
+	<flow name="get-all-carts-flow" doc:id="776fd32f-53b2-4b52-a994-e1d7046c55e3" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="0ee30617-4b08-4b8b-ae74-72cdabdb396d" message='#["Start calling Get All Carts"]'/>
+		<try doc:name="Try" doc:id="9f6ea5a2-2682-47da-8fbf-a35801fd3784">
+				<fakestore-carts-prc-api:get-all-available-carts doc:name="Get All Carts" doc:id="3ba5aae1-4469-49ed-9b68-0fd34f0dfa7a" config-ref="Fakestore_Carts_Prc_API_Config" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" target="data"/>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="7048dc90-e0c9-4aef-9ac9-e32256b60ff2" >
+			<ee:message >
+				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="fb7c7bed-4775-43eb-aeb1-d318544368ef" message='#["End calling Get All Carts"]'/>
+	</flow>
+	<flow name="get-cart-by-id-flow" doc:id="d8e3123e-9b41-4670-8054-3d81a3bb70bd" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="de3d03e4-1f95-452c-af0a-668e45f83a5b" message='#["Start calling Get Cart Detail"]'/>
+		<try doc:name="Try" doc:id="1ac8b3f3-d4d1-4926-9fe9-6fa9891881e6">
+				<fakestore-carts-prc-api:get-cart-detail doc:name="Get Cart Detail" doc:id="b6fedbbe-51c2-44cc-9ecb-4a4025d0728a" config-ref="Fakestore_Carts_Prc_API_Config" id="#[vars.cartId]" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" target="data">
+				</fakestore-carts-prc-api:get-cart-detail>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="4b580cc3-3420-451c-9f8f-10a1954c09ed" >
+			<ee:message >
+				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="14cf1c39-588e-40e1-bda7-ec2745e811b7" message='#["End calling Get Cart Detail"]'/>
+	</flow>
+	<flow name="add-new-cart-flow" doc:id="9591153a-f662-4e3b-886d-022a66a9509e" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="a976e0a0-8ecb-4b2f-a638-c6e3f689b37e" message='#["Start calling Add New Cart"]'/>
+		<try doc:name="Try" doc:id="a857cb34-99df-4160-9456-58804bf11b6b">
+				<fakestore-carts-prc-api:add-product-into-cart doc:name="Add Product Into Cart" doc:id="1f7401a8-ef4b-4146-bc8c-ae7e4255aa74" config-ref="Fakestore_Carts_Prc_API_Config" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" target="data"/>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="fb6f28c8-b329-4d05-b50b-743d3a10dbb0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.create'),
+  	cartId: vars.data.id
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="acef84e7-640f-4212-a1e4-da760b409cd1" message='#["End calling Add New Cart"]'/>
+	</flow>
+	<flow name="update-cart-by-id-flow" doc:id="075ace2a-fed2-43a3-9d46-453c7365a3df" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="71e3444c-4de8-47e7-a253-9d22f3df14ae" message='#["Start calling Update Cart"]'/>
+		<try doc:name="Try" doc:id="b8eba25e-0823-420a-921a-697c05526702">
+				<fakestore-carts-prc-api:update-existing-cart doc:name="Update Cart" doc:id="07904446-d740-4df6-8371-f3d599b6779e" config-ref="Fakestore_Carts_Prc_API_Config" id="#[vars.cartId]" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" />
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="5f6f2c3a-f903-4ef7-ac27-55c8f06b0425" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.update')
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="d17f73cd-1f92-4ad2-97b8-91cee497af53" message='#["End calling Update Cart"]'/>
+	</flow>
+	<flow name="delete-cart-by-id-flow" doc:id="61a397fa-b516-4061-9d32-689c1b6bba97" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="3e1d16e3-4978-4919-81b4-a1668d893361" message='#["Start calling Delete Cart"]'/>
+		<try doc:name="Try" doc:id="d816cd6b-d9df-48a3-b216-55ee5b76a470">
+				<fakestore-carts-prc-api:delete-cart doc:name="Delete Cart" doc:id="f003dfa1-1674-4541-bf16-099300164d1e" config-ref="Fakestore_Carts_Prc_API_Config" id="#[vars.cartId]" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" />
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="4149926f-a83c-4002-91ad-bd3c52d39900" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.deleted')
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="3af34a96-5a6e-420d-a290-0f4c5ce8ef0e" message='#["End calling Delete Cart"]'/>
+	</flow>
+	<flow name="checkout-carts-flow" doc:id="ae8ff960-69eb-4f90-800c-57fc82af072f" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="4ebb0a2f-84ba-4ad9-bb20-fdf2ba61eb9e" message='#["Start calling Checkout Cart"]'/>
+		<try doc:name="Try" doc:id="5ae28f4c-c08d-4bd1-aa11-d39846a1b8bc">
+				<fakestore-carts-prc-api:store-all-successfull-transaction-database doc:name="Checkout Cart" doc:id="619da9ac-59d1-4e99-a4be-c0f47682845c" config-ref="Fakestore_Carts_Prc_API_Config" x-correlation-id="#[vars.transactionId]" client-id="${secure::fakestore.api.client_id}" client-secret="${secure::fakestore.api.client_secret}" />
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="573092f1-8585-4095-b3ad-487279598ea8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.checkout')
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="e8264e02-6204-4f51-ab34-af87103a74d8" message='#["End calling Checkout Cart"]'/>
+	</flow>
+</mule>
