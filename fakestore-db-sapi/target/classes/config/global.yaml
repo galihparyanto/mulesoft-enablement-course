@@ -1,0 +1,10 @@
+#fakestore api
+http:
+  response:
+    internal.server:
+      code: "500"
+      msg: "Internal Server Error"
+    service.unavailable:
+      code: "503"
+      msg: "Service Unavailable"
+  

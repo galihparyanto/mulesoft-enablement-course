@@ -1,0 +1,17 @@
+api:
+  id: "17601059"
+  
+http:
+  host: "0.0.0.0"
+  port: "8081"
+  path: "/api/*"
+  timeout: "30000"
+
+fakestore:
+  db:
+    host: "sql6.freemysqlhosting.net"
+    port: "3306"
+    schema: "sql6464825"
+    until.successful:
+        attempts: "1"
+        interval: "500"
