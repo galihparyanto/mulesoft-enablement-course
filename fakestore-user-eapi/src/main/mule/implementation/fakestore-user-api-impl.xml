@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get-all-products-flow" doc:id="8070eae9-6e8b-43d4-9b09-1d7f714954cf" >
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="c299b46d-72db-4b7d-857c-c1abd18488ac" message='#["Start calling HTTP GET /products request"]'/>
+		<try doc:name="Try" doc:id="0d46c3e9-949f-4eb5-9cce-9d5bfeab4269">
+				<http:request method="GET" doc:name="GET /products" doc:id="c10eb39c-1ac3-452c-a0c1-b7d6d3329008" config-ref="HTTP_Request_configuration" path="${fakestore.api.path}" sendCorrelationId="ALWAYS" correlationId="#[vars.transactionId]" target="data">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::fakestore.api.client_secret'),
+	"client_id" : p('secure::fakestore.api.client_id')
+}]]]></http:headers>
+				</http:request>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<choice doc:name="Choice" doc:id="9ee44a42-c6a5-4d9d-9436-62306efe8905">
+			<when expression="#[vars.pageSize != 0 and vars.pageNum != 0]">
+				<ee:transform doc:name="Access Top Products" doc:id="754f4671-532a-4d44-896f-2877f503aeee">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+import * from dw::core::Arrays
+output application/json
+var offset = ((vars.pageNum)-1) * vars.pageSize
+var size = (vars.pageNum * vars.pageSize) - 1
+---
+{
+  header: {
+    apiName: "Fakestore User Experience API",
+    apiVersion: "1.0.0",
+    correlationId: vars.transactionId
+  },
+  data: vars.data[offset to size]
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform doc:name="Access All Products" doc:id="3cff0b3c-fca8-4aae-9593-015e7dd813b6">
+					<ee:message>
+						<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="d5954f4d-e300-40e5-a1ea-499b5f7a82d2" message='#["End calling HTTP GET /products request"]'/>
+	</flow>
+	<flow name="get-product-by-id-flow" doc:id="528c2608-68e1-4169-a97c-023e35673319" >
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="a04bfa66-54d6-4fee-9f5c-329b79af0545" message='#["Start calling HTTP GET /products/{id} request"]'/>
+		<try doc:name="Try" doc:id="adc0881d-7ffc-4b68-b0be-341e5dfee8d2">
+				<http:request method="GET" doc:name="GET /products/{id}" doc:id="5d8a1077-7693-4d83-9959-196047783d25" config-ref="HTTP_Request_configuration" path="${fakestore.api.path}/{id}" sendCorrelationId="ALWAYS" correlationId="#[vars.transactionId]" target="data">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::fakestore.api.client_secret'),
+	"client_id" : p('secure::fakestore.api.client_id')
+}]]]></http:headers>
+					<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : vars.productId
+}]]]></http:uri-params>
+				</http:request>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="ed4a0116-8a3b-494e-99f5-4d759f89d241">
+			<ee:message>
+				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="af8e6d51-c2bd-4016-9f42-ee2f261e72fa" message='#["End calling HTTP GET /products/{id} request"]'/>
+	</flow>
+	<flow name="add-new-product-flow" doc:id="7ceaa04d-8420-4391-879f-e3ca97069193" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="8ebb1b8e-bb45-4b01-8729-97e93dcd4e47" message='#["Start calling HTTP POST /products request"]'/>
+		<try doc:name="Try" doc:id="e9a93f6a-6d25-47ac-a970-b8b351a23ace">
+				<http:request method="POST" doc:name="POST /products" doc:id="3f3d072f-ccf7-4782-af58-a088b1e44da8" config-ref="HTTP_Request_configuration" path="${fakestore.api.path}" sendCorrelationId="ALWAYS" correlationId="#[vars.transactionId]" target="data">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::fakestore.api.client_secret'),
+	"client_id" : p('secure::fakestore.api.client_id')
+}]]]></http:headers>
+				</http:request>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="a4595e02-80be-43f9-a9e9-c4ae073205f2">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.create'),
+  	productId: vars.data.id
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="36717c15-ffa4-4fe0-9ac1-25a4bdd906e0" message='#["End calling HTTP POST /products request"]'/>
+	</flow>
+	<flow name="update-product-by-id-flow" doc:id="e91fd857-8a9d-477b-a8ff-72ca31295b20" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="359896a9-700f-4f37-a553-9a1a6304f5dc" message='#["Start calling HTTP PUT /products request"]'/>
+		<try doc:name="Try" doc:id="10f07dd7-e3fc-4148-9091-f8ca56604ff5">
+				<http:request method="PUT" doc:name="PUT /products" doc:id="7ebf4761-cf10-4260-b6fa-ae10960d5f00" config-ref="HTTP_Request_configuration" path="${fakestore.api.path}/{id}" sendCorrelationId="ALWAYS" correlationId="#[vars.transactionId]" target="data">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::fakestore.api.client_secret'),
+	"client_id" : p('secure::fakestore.api.client_id')
+}]]]></http:headers>
+					<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : vars.productId
+}]]]></http:uri-params>
+				</http:request>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="e1ae4344-a11b-4fb7-b338-09511578a84c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.update')
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="0594b98b-397f-4ebb-98aa-c1893ec66fe9" message='#["End calling HTTP PUT /products request"]'/>
+	</flow>
+	<flow name="delete-product-by-id-flow" doc:id="02281ef1-acf3-4646-b4e1-bc6f77974d44" >
+		<logger level="INFO" doc:name="INFO Start Logger" doc:id="8f02172e-26f6-4370-9e5e-3f6959fefd64" message='#["Start calling HTTP DELETE /products request"]'/>
+		<try doc:name="Try" doc:id="656b66a3-2d88-4d0e-bd4c-be5ae628bc4f">
+				<http:request method="DELETE" doc:name="DELETE /products" doc:id="37f0e79e-9377-4b02-af95-93e73f42df10" config-ref="HTTP_Request_configuration" path="${fakestore.api.path}/{id}" sendCorrelationId="ALWAYS" correlationId="#[vars.transactionId]" target="data">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::fakestore.api.client_secret'),
+	"client_id" : p('secure::fakestore.api.client_id')
+}]]]></http:headers>
+					<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : vars.productId
+}]]]></http:uri-params>
+				</http:request>
+				<error-handler ref="fakestore-error-handler" />
+			</try>
+		<ee:transform doc:name="Set Payload" doc:id="5ecc7811-143b-4dac-82ca-db10727bce8a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  header: {
+    apiName: p('http.response.header.api.name'),
+    apiVersion: p('http.response.header.api.version'),
+    correlationId: vars.transactionId
+  },
+  data: {
+  	message: p('http.response.data.msg.deleted')
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO End Logger" doc:id="80f1c7b7-f29e-49c6-a87e-6e8437f7b54d" message='#["End calling HTTP DELETE /products request"]'/>
+	</flow>
+</mule>

@@ -1,0 +1,27 @@
+#fakestore api
+fakestore:
+  api:
+    host: "fakestore-proxy-api-gap.sg-s1.cloudhub.io"
+    path: "products"
+    until.successful:
+      attempts: "1"
+      interval: "500"
+
+http:
+  response:
+    internal.server:
+      code: "500"
+      msg: "Internal Server Error"
+    service.unavailable:
+      code: "503"
+      msg: "Service Unavailable"
+    header:
+      api:
+        name: "Fakestore User Experience API"
+        version: "1.0.0"
+    data:
+      msg:
+        create: "Product created successfully."
+        update: "Product updated successfully."
+        deleted: "Product deleted successfully."
+  
