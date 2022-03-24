@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd ">
+    <munit:config name="fakestore-webstore-exp-api-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="localhost" port="8081" />
+    </http:request-config>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-400-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-400-application\json]" expectedErrorType="APIKIT:BAD_REQUEST">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1252a6d2-eefd-48ba-8716-e89d3032c57f" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="76a0cb8b-d2bb-4c9f-8516-894545bfd607" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_400_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-404-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-404-application\json]" expectedErrorType="APIKIT:NOT_FOUND">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="760bed91-ec5f-40ba-9238-3936bac1d828" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="1c360d12-6073-40de-889f-186e2d7032f7" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_404_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-405-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-405-application\json]" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a15935db-9751-4d19-add8-71eae2569427" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="c29040fe-6572-4938-b7e1-33055a6bc5d8" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(405)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 405" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_405_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-406-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-406-application\json]" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b6020a8c-1860-4c50-9db8-aede12844987" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="eb46a5db-8509-4f52-be00-f60d7867f754" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(406)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 406" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_406_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-415-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-406-application\json]" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7f710d12-fbbb-4704-9640-737b4811ff63" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="3404846c-8a7d-411b-ac71-4b487de1a89a" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(415)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 415" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_406_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-500-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-500-application\json]" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="adbb29e2-a513-47ab-a363-c7eca5f0db0b" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="69acbf80-36f3-454b-a59a-2a774cc8b0e3" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_500_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-501-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-501-application\json]" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a70ee456-d56e-4074-84b7-659915e792e4" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="0ddb28c5-22ee-40e0-bc48-e5d186205465" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(501)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 501" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_501_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-503-application\json-FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-503-application\json]" expectedErrorType="HTTP:SERVICE_UNAVAILABLE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="40073581-f761-41b9-9e2a-cfe18b69dead" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:SERVICE_UNAVAILABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="94b97abf-59ba-4d0d-b8d4-46629e466835" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_503_checkout_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-401--FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-401-]" expectedErrorType="HTTP:UNAUTHORIZED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="aef4b90c-1c46-4296-a00c-1fa7e97a9529" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="eef10a83-31b8-4fd9-962c-707e26efbbfc" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\checkout:application\json:fakestore-webstore-exp-api-config-429--FlowTest" description="Verifying functionality of [post:\checkout:application\json:fakestore-webstore-exp-api-config-429-]" expectedErrorType="HTTP:TOO_MANY_REQUESTS">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-webstore-exp-api-main" />
+            <munit:enable-flow-source value="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ba27b8c2-918f-48e9-a408-6f58f3333e42" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-webstore-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TOO_MANY_REQUESTS" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="3554acca-253b-456c-82db-6593c0505036" name="fakestore-webstore-exp-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+        </munit:validation>
+    </munit:test>
+</mule>

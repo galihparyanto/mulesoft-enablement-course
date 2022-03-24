@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <flow name="fakestore-webstore-exp-api-main">
+        <http:listener config-ref="fakestore-webstore-exp-api-httpListenerConfig" path="${http.path}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="fakestore-webstore-exp-api-config" />
+        <error-handler ref="apikit-error-handler" />
+    </flow>
+    <flow name="fakestore-webstore-exp-api-console">
+        <http:listener config-ref="fakestore-webstore-exp-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="fakestore-webstore-exp-api-config" />
+        <error-handler ref="apikit-error-handler" />
+    </flow>
+    <flow name="put:\carts\(id):application\json:fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id &amp; Cart Id">
+            <ee:variables>
+                <ee:set-variable variableName="cartId"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="update-cart-by-id-flow" doc:id="3bd267b3-001a-439d-bb77-26d4c07fd60b" name="update-cart-by-id-flow" />
+    </flow>
+    <flow name="get:\carts:fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id" doc:id="37217abc-421a-4b72-aa39-b59d12f78953">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-all-carts-flow" doc:id="669a47e4-3b5b-4848-a931-49abaa16c563" name="get-all-carts-flow" />
+    </flow>
+    <flow name="get:\health:fakestore-webstore-exp-api-config">
+        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Set Payload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  title: "health-chech-response",
+  examples: {
+    "health-chech-response": {
+      header: {
+        apiName: "Client Experience API",
+        apiVersion: "1.0.0",
+        correlationId: "0AD645D1-C06E-40AF-80D5-A0316CD190CC"
+      },
+      data: {
+        apiStatus: "Alive",
+        downStreamType: "Resource API",
+        downStreamStatus: "Alive"
+      }
+    }
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products:fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id, Page Size &amp; Page Number" doc:id="a2b7e490-a3f2-4626-a2d3-94f24e2db9bd">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="pageNum"><![CDATA[attributes.queryParams.page default 0 as Number]]></ee:set-variable>
+                <ee:set-variable variableName="pageSize"><![CDATA[attributes.queryParams.size default 0 as Number]]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-all-products-flow" doc:id="851d5eaf-d572-4348-9bef-5eb6a9602a8f" name="get-all-products-flow" />
+    </flow>
+    <flow name="get:\carts\(id):fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id &amp; Cart Id">
+            <ee:variables>
+                <ee:set-variable variableName="cartId"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-cart-by-id-flow" doc:id="e893791f-b6e6-43d2-8e3b-bf222fb50316" name="get-cart-by-id-flow" />
+    </flow>
+    <flow name="get:\products\(id):fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id &amp; Product Id">
+            <ee:variables>
+                <ee:set-variable variableName="productId"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-product-by-id-flow" doc:id="8bf68e27-0c2f-411a-8439-ae86dbec60bd" name="get-product-by-id-flow" />
+    </flow>
+    <flow name="post:\carts:application\json:fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id" doc:id="87c54319-85f3-44f9-b125-5c5e77688d45">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="add-new-cart-flow" doc:id="435f2c21-8211-4706-839a-9beadafdeb85" name="add-new-cart-flow" />
+    </flow>
+    <flow name="delete:\carts\(id):fakestore-webstore-exp-api-config">
+        <ee:transform doc:name="Set Transaction Id &amp; Cart Id" doc:id="0598f543-c386-46e9-9931-577356575a5c">
+            <ee:variables>
+                <ee:set-variable variableName="cartId"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="delete-cart-by-id-flow" doc:id="586872fe-8bb8-4511-963e-950a5f6bb9e6" name="delete-cart-by-id-flow" />
+    </flow>
+    <flow name="post:\checkout:application\json:fakestore-webstore-exp-api-config">
+        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Set Transaction Id">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="transactionId"><![CDATA[uuid()]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="checkout-carts-flow" doc:id="e0f49ae1-3b02-4c1b-8105-0b0cb1ff09e0" name="checkout-carts-flow" />
+    </flow>
+</mule>

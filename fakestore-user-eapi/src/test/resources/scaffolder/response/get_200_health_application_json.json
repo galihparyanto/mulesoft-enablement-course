@@ -1,0 +1,1 @@
+{"title":"health-chech-response","examples":{"health-chech-response":{"header":{"apiName":"Fakestore User Experience API","apiVersion":"1.0.0","correlationId":"0AD645D1-C06E-40AF-80D5-A0316CD190CC"},"data":{"apiStatus":"Alive","downStreamType":"Resource API","downStreamStatus":"Alive"}}}}

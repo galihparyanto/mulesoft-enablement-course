@@ -1,0 +1,8 @@
+{
+    "id": 1,
+    "title": "Test product",
+    "price": 13.5,
+    "description": "Lorem ipsum set",
+    "image": "https://i.pravatar.cc",
+    "category": "Electronic"
+}

@@ -1,0 +1,1 @@
+{"title":"200 Success PUT Product Response","examples":{"success-put-product-example":{"header":{"apiName":"Fakestore User Experience API","apiVersion":"1.0.0","correlationId":"96FF6552-1BF7-4F3B-8CF2-04FACDCDF82E"},"data":{"message":"Product updated successfully."}}}}

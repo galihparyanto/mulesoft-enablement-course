@@ -1,0 +1,31 @@
+#fakestore api
+fakestore:
+  api:
+    until.successful:
+      attempts: "1"
+      interval: "500"
+    timeout: "30000"
+
+http:
+  response:
+    internal.server:
+      code: "500"
+      msg: "Internal Server Error"
+    service.unavailable:
+      code: "503"
+      msg: "Service Unavailable"
+    header:
+      api:
+        name: "Fakestore Webstore Experience API"
+        version: "1.0.0"
+    data:
+      msg:
+        create: "Cart created successfully."
+        update: "Cart updated successfully."
+        deleted: "Cart deleted successfully."
+        checkout: "Transaction was executed successfully."
+        
+        
+      
+
+  

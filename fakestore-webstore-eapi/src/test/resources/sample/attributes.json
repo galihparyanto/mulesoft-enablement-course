@@ -1,0 +1,9 @@
+{
+	"queryParams" : {
+		"page" : 1,
+		"size" : 2
+	},
+	"uriParams" : {
+		"id" : 1
+	}
+}

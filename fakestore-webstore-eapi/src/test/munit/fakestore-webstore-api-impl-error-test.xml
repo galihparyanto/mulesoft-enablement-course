@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="fakestore-webstore-api-impl-error-test.xml" />
+	<munit:test name="fakestore-webstore-api-impl-error-test-get-all-products-connectivity-error-flowTest" doc:id="ee5951e9-48fd-4b4a-9363-321a5c147288" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Products Process API" doc:id="896f4b81-9041-4cf3-80d5-1fc44e5ca59d" processor="fakestore-products-prc-api:get-all-available-products">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get All Products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Products_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="894f3423-354c-466c-a2a0-6ef1975b0670" name="get:\products:fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="3431ab11-2903-443d-aa92-c31b1f35bb76" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-get-product-by-id-connectivity-error-flowTest" doc:id="ae1b53af-ba60-49bf-bc37-b790e4d3b6bb" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Call Products Process API" doc:id="64381c45-ae33-408a-8ff6-4c127ccd0e27" processor="fakestore-products-prc-api:get-product-detail">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Product Detail" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Products_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-product-by-id-flow" doc:id="faba165e-a6f5-44ce-b165-aa8c52e32b48" name="get:\products\(id):fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="e74fdc1d-85c5-4934-8131-cd782b51694a" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-get-all-carts-connectivity-error-flowTest" doc:id="12cc543e-a8b6-4acb-a46c-c0fb5825b61b" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="3669ebff-2ee8-4f42-a0f1-9e9a36d5417b" processor="fakestore-carts-prc-api:get-all-available-carts">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get All Carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+					<munit-tools:with-attribute whereValue="Get All Carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-all-carts-flow" doc:id="93bc3806-3878-4be9-bd29-c84d6ae2aecb" name="get:\carts:fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="090472bc-3f7e-4c81-8f67-6cab24e72188" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-get-cart-by-id-connectivity-error-flowTest" doc:id="29131761-2cae-4ef6-81f6-42f41baec46b" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="be9d6860-e846-4361-b66f-5102b9db6f8b" processor="fakestore-carts-prc-api:get-cart-detail">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Cart Detail" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-cart-by-id-flow" doc:id="34a61bd6-4bf8-472a-9f18-7afa5ecfd80d" name="get:\carts\(id):fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="eeb5986c-1706-4376-91c9-4222832ddd7e" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-add-new-cart-connectivity-error-flowTest" doc:id="4c1b89c6-a0a5-410e-8085-26867426fc1d" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="93a7ffb8-17ff-4206-9da8-5351e192e8e9" processor="fakestore-carts-prc-api:add-product-into-cart">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Add Product Into Cart" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to add-new-cart-flow" doc:id="c27580b7-da0c-4948-88b3-066aa5fee08e" name="post:\carts:application\json:fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8e9b1115-7121-42bd-b495-4cd0f2f5426e" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-update-cart-by-id-connectivity-error-flowTest" doc:id="61d04ee4-87e5-4c6e-ab3b-75bfc47b61e5" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="47d51106-8b69-4d08-8652-3f78bd7298ef" processor="fakestore-carts-prc-api:update-existing-cart">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Update Cart" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to update-cart-by-id-flow" doc:id="4b29d642-680f-4740-b897-c2ff40ca67e8" name="put:\carts\(id):application\json:fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8998a63d-ec16-4f33-a35e-dd4959306517" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-delete-cart-by-id-connectivity-error-flowTest" doc:id="7ca33410-cd52-4de3-9541-da334401c476" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="988867e5-7250-4e35-b222-a1fc46dca9c6" processor="fakestore-carts-prc-api:delete-cart">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Delete Cart" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete-cart-by-id-flow" doc:id="53dd9f29-7c8e-42f3-842a-9d077ba3a0ca" name="delete:\carts\(id):fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="d42467f9-1243-43cd-a5a9-88f8c5c56190" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-checkout-carts-connectivity-error-flowTest" doc:id="3d38f06e-7da9-4c60-be6e-87b982cb8805" description="Test" expectedErrorType="CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="0097f2be-bfaa-43e0-8e49-24db75a2e24c" processor="fakestore-carts-prc-api:store-all-successfull-transaction-database">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Checkout Cart" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to checkout-carts-flow" doc:id="e950d50e-bf07-42e5-b196-a7b023eec311" name="post:\checkout:application\json:fakestore-webstore-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="214e28bf-b190-4006-85c4-fa0468b73a20" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-webstore-api-impl-error-test-checkout-carts-expression-error-flowTest" doc:id="55abcd60-023e-4a53-b2fe-ff078e804250" description="Test" expectedErrorType="EXPRESSION">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Call Carts Process API" doc:id="9267c0e5-5298-49bf-8582-2c04fb76221d" processor="fakestore-carts-prc-api:store-all-successfull-transaction-database">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Checkout Cart" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_Carts_Prc_API_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_id}" attributeName="client-id" />
+					<munit-tools:with-attribute whereValue="${secure::fakestore.api.client_secret}" attributeName="client-secret" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="EXPRESSION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to checkout-carts-flow" doc:id="98b45fbf-2e00-4d36-8f31-3efd7dff27a1" name="post:\checkout:application\json:fakestore-webstore-exp-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8ac506c9-b6cb-4888-b15b-a0f768022257" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" />
+		</munit:validation>
+	</munit:test>
+</mule>

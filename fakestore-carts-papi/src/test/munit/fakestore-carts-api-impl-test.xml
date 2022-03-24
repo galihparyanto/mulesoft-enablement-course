@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="fakestore-carts-api-impl-test.xml" />
+	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-flowTest" doc:id="d9cdeea9-60f6-4e7e-b568-87dd141b6545" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="669fd621-0f04-4692-8445-6c42c6372238" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.cart.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample/carts.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-all-carts-flow" doc:id="66e6901c-62f1-4388-a871-afd28de65d0e" name="get:\carts:fakestore-carts-prc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="6b4034bf-dcd4-4412-8076-f39357357960" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/carts.json'), 'application/json'))]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-carts-api-impl-test-get-cart-by-id-flowTest" doc:id="f81e1370-9140-4d61-a5ff-dccfbb0d24d6" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="fda032b4-aa63-4699-a86a-7f6e60e6d36d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /carts/{id}" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.cart.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-cart-by-id-flow" doc:id="13a42239-f31c-478f-87e6-c239a8ab76c4" name="get:\carts\(id):fakestore-carts-prc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="70bc4cf1-a82b-483e-a945-6f9cfd80ec4d" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/cart.json'), 'application/json'))]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-carts-api-impl-test-add-new-cart-flowTest" doc:id="82e03cbf-5f5a-4b18-8a64-2aba6eef81ac" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP Post Request" doc:id="4fbfdf1b-f8ab-40ee-8cc8-741c14c3e38b" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="POST" attributeName="method" />
+					<munit-tools:with-attribute whereValue="POST /carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.cart.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to add-new-cart-flow" doc:id="0439b139-68dc-44e5-98dd-4ec0e1156730" name="post:\carts:application\json:fakestore-carts-prc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="a2dede93-8807-4dbd-b1ab-5924a75828bc" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/cart.json'), 'application/json'))]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-carts-api-impl-test-update-cart-by-id-flowTest" doc:id="8349ba55-de93-464e-b90c-150760793342" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP PUT Request" doc:id="34edc7c7-bf80-4307-8de5-7bb7c57ae31d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="PUT" attributeName="method" />
+					<munit-tools:with-attribute whereValue="PUT /carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.cart.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to update-cart-by-id-flow" doc:id="e73192a0-7433-4389-9369-d0ae2a865efc" name="put:\carts\(id):application\json:fakestore-carts-prc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="b5599005-2591-4c48-8c3d-300fc6d41c92" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/cart.json'), 'application/json'))]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-carts-api-impl-test-delete-cart-by-id-flowTest" doc:id="ac4b20b2-a722-485d-aba6-3f2814aec967" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP DELETE Request" doc:id="5a8ab19f-a92b-4f9d-8fe0-bce420845a51" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="DELETE" attributeName="method" />
+					<munit-tools:with-attribute whereValue="DELETE /carts" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.cart.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete-cart-by-id-flow" doc:id="b15fb52e-8cb9-443c-8a37-87565f69eea7" name="delete:\carts\(id):application\json:fakestore-carts-prc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="82713aa5-9f98-4f94-b1b0-0b6958236511" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/cart.json'), 'application/json'))]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

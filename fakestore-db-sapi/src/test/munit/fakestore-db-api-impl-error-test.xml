@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="fakestore-db-api-impl-error-test.xml" />
+	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-connectivity-error-flowTest" doc:id="705cccfb-2a60-4eae-bde2-2658a909861c" description="Test" expectedErrorType="CONNECTIVITY">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Insert Sales" doc:id="c0c87e64-d0f9-4d94-b43d-ac8d11a8d256" processor="db:bulk-insert">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="Insert Sales" attributeName="doc:name" />
+						<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
+						<munit-tools:with-attribute whereValue="salesResult" attributeName="target" />
+					</munit-tools:with-attributes>
+				</munit-tools:mock-when>
+				<munit-tools:mock-when doc:name="Insert Sales Detail" doc:id="9e449815-7dee-46fd-b965-7af23cb1f423" processor="db:bulk-insert">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="Insert Sales Detail" attributeName="doc:name" />
+						<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
+					</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="CONNECTIVITY" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="e9df9b39-17ef-4c66-97c8-e641cbe3b35c" name="post:\checkout:application\json:fakestore-db-sys-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="23b7e2a7-8d0d-4a0d-a723-9f9292d0e5dc" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-expression-error-flowTest" doc:id="97a7875e-0ea7-4fb5-afb5-b02b00c27edd" description="Test" expectedErrorType="RETRY_EXHAUSTED">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Insert Sales" doc:id="465a5935-748c-4456-8f47-5d4a6cf99867" processor="db:bulk-insert">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Insert Sales" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="salesResult" attributeName="target" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Insert Sales Detail" doc:id="249ea055-1c0b-4d19-b672-6c2c26610339" processor="db:bulk-insert">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Insert Sales Detail" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:error typeId="EXPRESSION" />
+			</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="52b29059-97f3-43f7-a3db-ba0e4c798926" name="post:\checkout:application\json:fakestore-db-sys-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c4a3c24c-d376-434a-b7e2-893ab5d17eca" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" />
+		</munit:validation>
+	</munit:test>
+</mule>

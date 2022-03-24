@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <flow name="fakestore-products-prc-api-main">
+        <http:listener config-ref="fakestore-products-prc-api-httpListenerConfig" path="${http.path}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="fakestore-products-prc-api-config" />
+        <error-handler ref="apikit-error-handler" />
+    </flow>
+    <flow name="fakestore-products-prc-api-console">
+        <http:listener config-ref="fakestore-products-prc-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="fakestore-products-prc-api-config" />
+        <error-handler ref="apikit-error-handler" />
+    </flow>
+    <flow name="get:\health:fakestore-products-prc-api-config">
+        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Set Payload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  title: "health-chech-response",
+  examples: {
+    "health-chech-response": {
+      header: {
+        apiName: "Client Experience API",
+        apiVersion: "1.0.0",
+        correlationId: "0AD645D1-C06E-40AF-80D5-A0316CD190CC"
+      },
+      data: {
+        apiStatus: "Alive",
+        downStreamType: "Resource API",
+        downStreamStatus: "Alive"
+      }
+    }
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products:fakestore-products-prc-api-config">
+        <ee:transform doc:name="Set Transaction Id, Page Size &amp; Page Number" doc:id="11840e61-6593-4a17-ae10-baad23d36c65">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="pageNum"><![CDATA[attributes.queryParams.page default 0 as Number]]></ee:set-variable>
+                <ee:set-variable variableName="pageSize"><![CDATA[attributes.queryParams.size default 0 as Number]]></ee:set-variable>
+				<ee:set-variable variableName="transactionId" ><![CDATA[attributes.headers.'x-correlation-id' default correlationId]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-all-products-flow" doc:id="49adb73f-755d-4ddc-82fb-e97cddb6e0a8" name="get-all-products-flow" />
+    </flow>
+    <flow name="get:\products\(id):fakestore-products-prc-api-config">
+        <ee:transform doc:name="Set Transaction Id &amp; Product Id">
+            <ee:variables>
+                <ee:set-variable variableName="productId"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+				<ee:set-variable variableName="transactionId" ><![CDATA[attributes.headers.'x-correlation-id' default correlationId]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="get-product-by-id-flow" doc:id="0cca875c-306c-4b02-8cf8-a3a121e7e836" name="get-product-by-id-flow" />
+    </flow>
+</mule>

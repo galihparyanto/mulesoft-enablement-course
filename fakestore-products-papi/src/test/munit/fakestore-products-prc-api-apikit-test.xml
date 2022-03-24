@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd ">
+    <munit:config name="fakestore-products-prc-api-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="localhost" port="8081" />
+    </http:request-config>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-400-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-400-application\json]" expectedErrorType="APIKIT:BAD_REQUEST">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Call APIKit Router" doc:id="9d4aa140-f2f6-44b8-8046-aaf39fc86c24" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId='#["APIKIT:BAD_REQUEST"]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="9924aafe-31c6-4a16-a904-06af0b8c8ce7" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+			<munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_400_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-404-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-404-application\json]" expectedErrorType="APIKIT:NOT_FOUND">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ec25a926-32e6-46d0-a511-48767caa2882" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="a1285962-4e96-4eb6-a73f-33385183cbe3" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_404_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-405-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-405-application\json]" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6d3d53a0-7fe7-4c01-a571-45b0632af5d1" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="7d516196-a409-46d5-84eb-2d9a8a5f80ef" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(405)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 405" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_405_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-406-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-406-application\json]" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="324ad3d5-71fb-47ea-a8b1-c3831c9a5ea6" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="9304a6dd-9fb4-46ab-90ab-3f2c0f0e422d" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(406)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 406" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_406_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-415-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-415-application\json]" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Call APIKit Router" doc:id="13ecff2f-1bb8-4bfd-8b17-1eea661d3ef1" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="7f025d9e-e85e-4f82-af53-930879780698" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert That Status Code is 415" doc:id="7eff139e-748d-4728-bd18-cb646c1901e5" message="The HTTP Status code is not correct!" expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(415)]" />
+			<munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_400_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-500-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-500-application\json]" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6079062d-0247-405c-a400-63065539645d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="5cc1a5f0-b4fe-4849-bc76-b6d5c662d3f7" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_500_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-501-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-501-application\json]" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="bb496bd5-d3d3-4bd4-bb83-1b1e7f2de54e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="d4a593b6-7ff0-4d0e-8cc6-8a6280fdbffc" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(501)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 501" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_501_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-503-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-503-application\json]" expectedErrorType="HTTP:SERVICE_UNAVAILABLE">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="275495c2-71ed-4387-b48b-a2bf95dc1dff" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:SERVICE_UNAVAILABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="184a5f6d-3dd3-4474-bf07-714fe617dd58" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_503_health_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-401--FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-401-]" expectedErrorType="HTTP:UNAUTHORIZED">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9f3271b7-533f-4d16-ac63-dea83fb1457e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="0236e401-e094-4815-adb7-9cb5596be538" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\health:fakestore-products-prc-api-config-429--FlowTest" description="Verifying functionality of [get:\health:fakestore-products-prc-api-config-429-]" expectedErrorType="HTTP:TOO_MANY_REQUESTS">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="fakestore-products-prc-api-main" />
+            <munit:enable-flow-source value="get:\health:fakestore-products-prc-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e22eac2a-6e0d-43bc-9498-b6205bdb14bf" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fakestore-products-prc-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:TOO_MANY_REQUESTS" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+        <munit:execution>
+			<flow-ref doc:name="Flow Reference" doc:id="8250a197-cb0d-46ee-893a-f8b9db50e0fc" name="fakestore-products-prc-api-main"/>
+        </munit:execution>
+		<munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+        </munit:validation>
+    </munit:test>
+</mule>

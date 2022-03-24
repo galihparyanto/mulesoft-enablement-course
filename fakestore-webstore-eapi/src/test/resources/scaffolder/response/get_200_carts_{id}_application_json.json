@@ -1,0 +1,1 @@
+{"title":"200 Success GET Cart Response","examples":{"success-get-cart-example":{"header":{"apiName":"Fakestore Webstore Experience API","apiVersion":"1.0.0","correlationId":"0AD645D1-C06E-40AF-80D5-A0316CD190CC"},"data":{"id":21,"userId":5,"date":"2020-02-03","products":[{"productId":5,"quantity":1},{"productId":1,"quantity":5}]}}}}

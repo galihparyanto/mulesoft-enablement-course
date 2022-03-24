@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="fakestore-user-api-impl-test.xml" />
+	<munit:test name="fakestore-user-api-impl-test-get-all-products-flowTest" doc:id="107ee71a-7268-4dd3-9e8c-2fe7d3e6a843" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="57cab9a6-7d88-4e02-a6dc-2f4832072db2" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="data" value="#[MunitTools::getResourceAsString('sample/products.json')]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="8c6d6431-22bc-4739-ad75-4acc0af6c4a9" name="get:\products:fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="795748dc-fd8a-4d28-9bde-5d62975033e0" expression="#[payload.data]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/products.json'), 'application/json'))]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-user-api-impl-test-get-all-products-paging-flowTest" doc:id="ecdd4e9f-dd59-49e9-a1bd-ce306cce3ef0" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="98835754-67cf-4bbb-bc59-3ce48d744f7a" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="data" value="#[MunitTools::getResourceAsString('sample/products.json')]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="7e6042f4-22b8-4c81-83bb-bf04319eb20c" >
+				<munit:attributes value="#[MunitTools::getResourceAsString('sample/attributes.json')]" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="269fd9f7-4cf3-443b-98b9-03370039cce6" name="get:\products:fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Size of Payload" doc:id="2c02df82-534b-4865-84a3-e61cc14be5ce" expression="#[sizeOf(payload.data)]" is="#[MunitTools::equalTo(2)]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-user-api-impl-test-get-product-by-id-flowTest" doc:id="8dbb53dd-60cd-4fcc-ae44-bad5dafcd561" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="7ff313bc-2607-47e9-a845-1e13211e12d7" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /products/{id}" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="data" value="#[MunitTools::getResourceAsString('sample/product.json')]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-product-by-id-flow" doc:id="ef517e4e-39b9-4142-883d-591b7bd03a8b" name="get:\products\(id):fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="916a99b2-1dad-499c-8a32-4e1933af7743" expression="#[payload.data]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/product.json'), 'application/json'))]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-user-api-impl-test-add-new-product-flowTest" doc:id="1fac3229-339d-4a26-aa06-a0989a0191d6" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP POST Request" doc:id="342c553f-1419-4dc6-9c5e-600e0bf5fa5e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="POST" attributeName="method" />
+					<munit-tools:with-attribute whereValue="POST /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="data" value="#[MunitTools::getResourceAsString('sample/product.json')]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to add-new-product-flow" doc:id="21879c01-f2b8-4958-bfdb-bcc30e1365a1" name="post:\products:application\json:fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="2c514005-14cf-4d8d-825b-4b94dbd42d42" expression="#[payload.data.productId]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/product.json'), 'application/json').id)]"/>
+			<munit-tools:assert-equals doc:name="Message" doc:id="85af4005-0057-4bc8-a64d-3efa88a417f4" actual="#[payload.data.message]" expected="#[p('http.response.data.msg.create')]" message="#['Message is not correct']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-user-api-impl-test-update-product-by-id-flowTest" doc:id="32e22339-ca9b-4471-9829-fd308d3b7d2c" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP PUT Request" doc:id="44f60c52-3329-443a-86f5-219a5b17e8bc" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="PUT" attributeName="method" />
+					<munit-tools:with-attribute whereValue="PUT /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to update-product-by-id-flow" doc:id="b8c9faca-7d2a-4239-acf4-63a82f170538" name="put:\products\(id):application\json:fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="e0a22c1b-db97-4a67-9982-7ef4a7123b48" is="#[MunitTools::equalTo(p('http.response.data.msg.update'))]" expression="#[payload.data.message]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="fakestore-user-api-impl-test-delete-product-by-id-flowTest" doc:id="63fdbf18-080c-4cc3-ad81-3a7fe9246cf5" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Call HTTP DELETE Request" doc:id="8d7e91df-270f-48c6-afc9-88ec08aa1666" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="DELETE" attributeName="method" />
+					<munit-tools:with-attribute whereValue="DELETE /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}/{id}" attributeName="path" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete-product-by-id-flow" doc:id="860d836f-6bab-4f38-8764-0c4f07a9d797" name="delete:\products\(id):fakestore-user-exp-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Payload" doc:id="35d2df72-d1d1-4641-bf1c-3d3980b29578" is="#[MunitTools::equalTo(p('http.response.data.msg.deleted'))]" expression="#[payload.data.message]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="fakestore-products-api-impl-error-test-1.xml" />
+	<munit:test name="fakestore-products-api-impl-test-get-all-products-connectivity-error-flowTest" doc:id="e3862fdf-5df1-4866-85f3-991df892f0ae" description="Test" expectedErrorType="CONNECTIVITY">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Call HTTP Get Request" doc:id="d7bdaad1-c24c-4aad-afa2-fde028112c41" processor="http:request">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+						<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+						<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+						<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+					</munit-tools:with-attributes>
+					<munit-tools:then-return>
+						<munit-tools:error typeId="CONNECTIVITY" />
+					</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="943c7745-92f4-4eed-b241-ecac87f8b2a8" name="get:\products:fakestore-products-prc-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="55d7659d-e40f-4ca2-ae1e-9d4bea9a89fe" message='#["Products not found"]' is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="fakestore-products-api-impl-test-get-all-products-paging-connectivity-error-flowTest" doc:id="d85216b3-4ad5-438f-aa81-5b72f3eeb4c7" description="Test" expectedErrorType="CONNECTIVITY">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Call HTTP Get Request" doc:id="b67693d6-8b6b-4728-8091-ce430433df0b" processor="http:request">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+						<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+						<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+						<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+					</munit-tools:with-attributes>
+					<munit-tools:then-return>
+						<munit-tools:error typeId="CONNECTIVITY" />
+					</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<munit:set-event doc:name="Set Event" doc:id="e7cfec2e-197d-49a2-8673-9f13f219ab77">
+					<munit:attributes value="#[MunitTools::getResourceAsString('sample/attributes.json')]" mediaType="application/json" />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="6fce4bbc-6b68-4d17-9e4d-e65bb4b71298" name="get:\products:fakestore-products-prc-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="70e59636-cac6-466f-83ad-a3d08a271684" message='#["Products not found"]' expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="fakestore-products-api-impl-test-get-product-by-id-connectivity-error-flowTest" doc:id="5084243c-9d78-4730-aa84-c8893e1fb574" description="Test" expectedErrorType="CONNECTIVITY">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Call HTTP Get Request" doc:id="e0a6dcaf-3ac4-49eb-ad3b-13ab24e2166f" processor="http:request">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+						<munit-tools:with-attribute whereValue="GET /products/{id}" attributeName="doc:name" />
+						<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+						<munit-tools:with-attribute whereValue="${fakestore.api.path}/{id}" attributeName="path" />
+					</munit-tools:with-attributes>
+					<munit-tools:then-return>
+						<munit-tools:error typeId="CONNECTIVITY" />
+						<munit-tools:variables>
+							<munit-tools:variable key="products" value="#[MunitTools::getResourceAsString('sample/product.json')]" mediaType="application/json" />
+						</munit-tools:variables>
+					</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow-ref to get-product-by-id-flow" doc:id="5f40f093-c720-43e2-a7aa-690a8907b806" name="get:\products\(id):fakestore-products-prc-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="b7d40371-7cf9-4b88-874d-cf432d0afb35" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="fakestore-products-api-impl-test-get-all-products-expression-error-flowTest" doc:id="c3fd110b-e4b2-4d58-a53f-74d1bf6da2e9" description="Test" expectedErrorType="EXPRESSION">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Call HTTP Get Request" doc:id="c46022b1-0adf-4385-b410-cc85967aaf92" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="GET /products" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Fakestore_HTTP_Request_configuration" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="${fakestore.api.path}" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="EXPRESSION" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="a508775a-4b3a-4b0d-9e53-d32d5369deec" name="get:\products:fakestore-products-prc-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="dbd5f882-add2-4e8c-aa1f-0d98398cd9b1" message='#["Products not found"]' is="#[MunitTools::equalTo(500)]" expression="#[vars.httpStatus]" />
+			</munit:validation>
+		</munit:test>
+
+
+</mule>
