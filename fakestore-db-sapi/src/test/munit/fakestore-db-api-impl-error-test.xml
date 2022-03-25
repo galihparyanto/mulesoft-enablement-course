@@ -8,7 +8,7 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="fakestore-db-api-impl-error-test.xml" />
-	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-connectivity-error-flowTest" doc:id="705cccfb-2a60-4eae-bde2-2658a909861c" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-connectivity-error-flowTest" doc:id="705cccfb-2a60-4eae-bde2-2658a909861c" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Insert Sales" doc:id="c0c87e64-d0f9-4d94-b43d-ac8d11a8d256" processor="db:bulk-insert">
 					<munit-tools:with-attributes>
@@ -28,13 +28,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="1f87acf3-c970-4712-9d7e-e1020683878a" >
 				<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="e9df9b39-17ef-4c66-97c8-e641cbe3b35c" name="post:\checkout:application\json:fakestore-db-sys-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="cb8cd146-d9f1-4f82-bf2b-9eaed90f7910" >
+						<logger level="INFO" doc:name="Logger" doc:id="0c3c6682-df90-4b85-867d-1c677c0ccebd" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="23b7e2a7-8d0d-4a0d-a723-9f9292d0e5dc" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="23b7e2a7-8d0d-4a0d-a723-9f9292d0e5dc" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-expression-error-flowTest" doc:id="97a7875e-0ea7-4fb5-afb5-b02b00c27edd" description="Test" expectedErrorType="RETRY_EXHAUSTED">
+	<munit:test name="fakestore-db-api-impl-test-insert-sales-into-database-expression-error-flowTest" doc:id="97a7875e-0ea7-4fb5-afb5-b02b00c27edd" description="Test">
 		<munit:behavior>
 			<munit-tools:mock-when doc:name="Insert Sales" doc:id="465a5935-748c-4456-8f47-5d4a6cf99867" processor="db:bulk-insert">
 				<munit-tools:with-attributes>
@@ -54,10 +61,17 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="52b29059-97f3-43f7-a3db-ba0e4c798926" name="post:\checkout:application\json:fakestore-db-sys-api-config" />
+			<try doc:name="Try" doc:id="0885915f-be52-4b29-9f3a-e2a64ffe12ca" >
+				<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="52b29059-97f3-43f7-a3db-ba0e4c798926" name="post:\checkout:application\json:fakestore-db-sys-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b7bfe661-ebc5-426c-8cac-02b7d4f654a4" >
+						<logger level="INFO" doc:name="Logger" doc:id="57b3c836-cb83-478d-8df5-f7d6fbdb2778" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c4a3c24c-d376-434a-b7e2-893ab5d17eca" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" />
+			<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c4a3c24c-d376-434a-b7e2-893ab5d17eca" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
 		</munit:validation>
 	</munit:test>
 </mule>

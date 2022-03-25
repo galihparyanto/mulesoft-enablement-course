@@ -8,7 +8,7 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="fakestore-db-api-impl-error-test.xml" />
-	<munit:test name="fakestore-db-api-impl-test-checkout-carts-connectivity-error-flowTest" doc:id="831e88ca-f6b9-4047-9128-79b0c1ae4f7c" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-db-api-impl-test-checkout-carts-connectivity-error-flowTest" doc:id="831e88ca-f6b9-4047-9128-79b0c1ae4f7c" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="5c023e10-d494-4c84-bf88-825c19b61d2a" processor="http:request">
 					<munit-tools:with-attributes>
@@ -36,16 +36,23 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="d843307b-39bc-40e7-802f-e98782e7eb17" >
 				<munit:set-event doc:name="Set Event" doc:id="b2f1b7f0-b039-42b6-98ea-e9c2623bd250">
 					<munit:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
 				</munit:set-event>
 				<flow-ref doc:name="Flow-ref to checkout-carts-flow" doc:id="3c929f54-6aaa-4052-889e-06df226666c1" name="post:\checkout:application\json:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="feb0a9a6-068a-4d0d-bd3b-ff2a17c8ed93" >
+						<logger level="INFO" doc:name="Logger" doc:id="53122541-0317-4450-8531-bce6581b87cd" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="3183040f-090c-4fa2-b36f-b71b8a7a00ec" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="3183040f-090c-4fa2-b36f-b71b8a7a00ec" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-db-api-impl-test-checkout-carts-expression-error-flowTest" doc:id="b5c489b9-821d-4f3d-acc0-ba503be57337" description="Test" expectedErrorType="EXPRESSION">
+	<munit:test name="fakestore-db-api-impl-test-checkout-carts-expression-error-flowTest" doc:id="b5c489b9-821d-4f3d-acc0-ba503be57337" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="be5ace45-2363-4429-9fdd-0c831b1f0492" processor="http:request">
 					<munit-tools:with-attributes>
@@ -73,13 +80,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="e8e20d17-ec63-44eb-9bc7-413bb1d3ae9f" >
 				<munit:set-event doc:name="Set Event" doc:id="4c3483b4-441e-4a22-b474-c4065963d41d">
 					<munit:payload value="#[MunitTools::getResourceAsString('sample/cart.json')]" mediaType="application/json" />
 				</munit:set-event>
 				<flow-ref doc:name="Flow-ref to checkout-carts-flow" doc:id="ece11142-df79-42af-a93d-dbb82e691fff" name="post:\checkout:application\json:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="aae29aca-5f52-416b-8b47-9d8e123b6487" >
+						<logger level="INFO" doc:name="Logger" doc:id="b41d1628-90f3-4995-9758-d90addf4b63c" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="a69fcae1-c75b-4966-b77e-3b011c48306d" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="a69fcae1-c75b-4966-b77e-3b011c48306d" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
 			</munit:validation>
 		</munit:test>
 

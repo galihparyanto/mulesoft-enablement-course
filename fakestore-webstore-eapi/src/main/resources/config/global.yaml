@@ -14,6 +14,24 @@ http:
     service.unavailable:
       code: "503"
       msg: "Service Unavailable"
+    bad.request:
+      code: "400"
+      msg: "Bad Request"
+    resource.not.found:
+      code: "404"
+      msg: "Resource Not Found"
+    method.not.allowed:
+      code: "405"
+      msg: "Method Not Allowed"
+    not.acceptable:
+      code: "406"
+      msg: "Not Acceptable"
+    unsupported.media.type:
+      code: "415"
+      msg: "Unsupported Media Type"
+    not.implemented:
+      code: "501"
+      msg: "Not Implemented"
     header:
       api:
         name: "Fakestore Webstore Experience API"

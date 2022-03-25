@@ -8,7 +8,7 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="fakestore-carts-api-impl-error-test-1.xml" />
-	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-connectivity-error-flowTest" doc:id="aa8f9014-246b-49cd-9348-e8b0bc1c3126" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-connectivity-error-flowTest" doc:id="aa8f9014-246b-49cd-9348-e8b0bc1c3126" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="ad1f33e8-2c60-44f1-9f8f-172a8a2efd27" processor="http:request">
 					<munit-tools:with-attributes>
@@ -23,13 +23,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="d8420ac1-a51c-4a18-a376-17c400c91ade" >
 				<flow-ref doc:name="Flow-ref to get-all-carts-flow" doc:id="efc02385-0fb0-47f0-a0e6-48117fe87ddf" name="get:\carts:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5c29fbab-8806-4195-af05-fc3a3009cc72" >
+						<logger level="INFO" doc:name="Logger" doc:id="96f8c904-bc53-4e45-8f72-b13e21ff5abe" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c1a0986f-4ec7-4975-a2e9-705490be9f0e" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c1a0986f-4ec7-4975-a2e9-705490be9f0e" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-carts-api-impl-test-get-cart-by-id-connectivity-error-flowTest" doc:id="f0c84b2e-83a7-43dd-ab32-c5fbcfbb2376" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-carts-api-impl-test-get-cart-by-id-connectivity-error-flowTest" doc:id="f0c84b2e-83a7-43dd-ab32-c5fbcfbb2376" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="81f7eac0-d8af-43f6-a1e7-b9fe7358b44b" processor="http:request">
 					<munit-tools:with-attributes>
@@ -44,13 +51,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="94cc5123-c298-467c-b85d-cfb48421e5b7" >
 				<flow-ref doc:name="Flow-ref to get-cart-by-id-flow" doc:id="769e7020-7a44-48fa-b9b4-80328ed4e4c2" name="get:\carts\(id):fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d23672c7-bae5-45d6-b250-302eec81e93f" >
+						<logger level="INFO" doc:name="Logger" doc:id="a5f59bc9-a7dd-4642-bf7c-3e67c6d74972" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="6a7d0f63-9033-4b4f-bd6b-beafc660a4b0" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="6a7d0f63-9033-4b4f-bd6b-beafc660a4b0" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-carts-api-impl-test-add-new-cart-connectivity-error-flowTest" doc:id="23e42c99-6274-4188-8347-e999edc55f22" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-carts-api-impl-test-add-new-cart-connectivity-error-flowTest" doc:id="23e42c99-6274-4188-8347-e999edc55f22" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP POST Request" doc:id="0ba244d8-1eb5-4f5a-a58a-f3ad5c158b03" processor="http:request">
 					<munit-tools:with-attributes>
@@ -65,13 +79,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="b14bc4eb-136d-4000-abfa-f63776123904" >
 				<flow-ref doc:name="Flow-ref to add-new-cart-flow" doc:id="6fdfcd60-140d-4a1b-9e9f-af2e22d171ce" name="post:\carts:application\json:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="859f8fb6-0dd0-4e05-8664-0c02e75f0942" >
+						<logger level="INFO" doc:name="Logger" doc:id="9980d08c-b3c3-4f04-997c-273746387a4c" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="f59e634d-1795-41f8-8083-88835faab751" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="f59e634d-1795-41f8-8083-88835faab751" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-carts-api-impl-test-update-cart-by-id-connectivity-error-flowTest" doc:id="4ff4f091-bb89-4c3c-ab9e-2adc5b039210" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-carts-api-impl-test-update-cart-by-id-connectivity-error-flowTest" doc:id="4ff4f091-bb89-4c3c-ab9e-2adc5b039210" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP PUT Request" doc:id="4e0477e6-1aa9-40ff-9082-0dac7bd5d447" processor="http:request">
 					<munit-tools:with-attributes>
@@ -86,13 +107,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="75771fb9-74bb-4bb9-a3b7-84b81d4950b7" >
 				<flow-ref doc:name="Flow-ref to update-cart-by-id-flow" doc:id="4a8d810e-8c74-4198-a3e8-96403f97b05f" name="put:\carts\(id):application\json:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="93d03615-036e-4f9a-a18d-30ff0657c43b" >
+						<logger level="INFO" doc:name="Logger" doc:id="193cd2a7-020b-42ac-b996-7db7b8cd1a6f" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="66846e98-99ea-43ea-b644-c0424840510a" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="66846e98-99ea-43ea-b644-c0424840510a" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-carts-api-impl-test-delete-cart-by-id-connectivity-error-flowTest" doc:id="515ac5e2-81b0-4e89-96e3-6469a3d41973" description="Test" expectedErrorType="CONNECTIVITY">
+	<munit:test name="fakestore-carts-api-impl-test-delete-cart-by-id-connectivity-error-flowTest" doc:id="515ac5e2-81b0-4e89-96e3-6469a3d41973" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP DELETE Request" doc:id="2c22e6c4-9a3b-433a-ab8d-cb8bc7d1d9b1" processor="http:request">
 					<munit-tools:with-attributes>
@@ -107,13 +135,20 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="48140357-69a8-4e32-994b-95529b5141e0" >
 				<flow-ref doc:name="Flow-ref to delete-cart-by-id-flow" doc:id="abe8c514-de63-4b28-a598-ca021ed84afe" name="delete:\carts\(id):application\json:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0045231f-3bf4-4de9-adf5-60c95aef2bb9" >
+						<logger level="INFO" doc:name="Logger" doc:id="97f20b30-1a36-4e81-a61b-65ff62209336" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8909c9a6-ca29-4925-918b-4ee55265632f" is="#[MunitTools::equalTo(503)]" expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8909c9a6-ca29-4925-918b-4ee55265632f" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
-	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-expression-error-flowTest" doc:id="7d49b4d4-19bd-4327-afec-78bbae06a440" description="Test" expectedErrorType="EXPRESSION">
+	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-expression-error-flowTest" doc:id="7d49b4d4-19bd-4327-afec-78bbae06a440" description="Test">
 			<munit:behavior>
 				<munit-tools:mock-when doc:name="Call HTTP GET Request" doc:id="3878b6b3-bf68-485b-b73d-00c5adc90a4e" processor="http:request">
 					<munit-tools:with-attributes>
@@ -128,10 +163,17 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
+			<try doc:name="Try" doc:id="dd38d78f-c266-48b4-a216-ac24ecebecb3" >
 				<flow-ref doc:name="Flow-ref to get-all-carts-flow" doc:id="8662c662-9c52-413f-b173-f63865acf73a" name="get:\carts:fakestore-carts-prc-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="deb3ffce-cf49-4080-bcd7-775ae7151029" >
+						<logger level="INFO" doc:name="Logger" doc:id="ca9dc60e-54ec-4c36-acca-4ea59dfa6872" message='#["An error occurred"]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="82aaf69d-8309-4d86-800b-15c41299ffc1" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" />
+				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="82aaf69d-8309-4d86-800b-15c41299ffc1" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
 			</munit:validation>
 		</munit:test>
 

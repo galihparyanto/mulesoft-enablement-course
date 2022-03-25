@@ -11,7 +11,22 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Bad request"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.bad.request.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.bad.request.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
@@ -24,7 +39,22 @@ output application/json
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.resource.not.found.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.resource.not.found.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
@@ -37,7 +67,22 @@ output application/json
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Method not allowed"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.method.not.allowed.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.method.not.allowed.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[405]]></ee:set-variable>
@@ -50,7 +95,22 @@ output application/json
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not acceptable"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.not.acceptable.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.not.acceptable.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[406]]></ee:set-variable>
@@ -63,7 +123,22 @@ output application/json
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Unsupported media type"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.unsupported.media.type.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.unsupported.media.type.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[415]]></ee:set-variable>
@@ -76,7 +151,22 @@ output application/json
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not Implemented"}]]></ee:set-payload>
+{
+	header: {
+		apiName: p('http.response.header.api.name'),
+		apiVersion: p('http.response.header.api.version'),
+	    correlationId: vars.transactionId,
+	    error: {
+	      description: error.description default p('http.response.not.implemented.msg'),
+	      code: (error.muleMessage.attributes.statusCode) as String default p('http.response.not.implemented.code'),
+	      timestamp: now(),
+	      requestReference: {
+	        method: attributes.method,
+	        uri: attributes.maskedRequestPath
+	      }
+		}
+	}
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
 					<ee:set-variable variableName="httpStatus" ><![CDATA[501]]></ee:set-variable>
