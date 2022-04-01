@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<flow name="get-all-carts-flow" doc:id="956f7501-7aa1-4ec7-a34d-3a0c3a40eda6" >
 		<logger level="INFO" doc:name="INFO Start Logger" doc:id="b082a07f-8448-4584-9a38-7d8173cda88f" message='#["Start calling HTTP GET /carts request"]'/>
 		<try doc:name="Try" doc:id="3bdac217-3e37-4a44-8bce-e56d52b64065">
@@ -17,6 +18,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				</http:request>
 				<error-handler ref="fakestore-error-handler" />
 			</try>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="a808eb29-8784-404d-8243-b6dfa943031f" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="7b17e0e1-3661-455d-8216-5ba161bb6cf6" message='#["End calling HTTP GET /carts request"]'/>
 	</flow>
 	<flow name="get-cart-by-id-flow" doc:id="ec1f32e3-b4b0-43c3-8726-431e124c5c9f" >
@@ -37,6 +39,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				</http:request>
 				<error-handler ref="fakestore-error-handler" />
 			</try>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="65c4949c-651a-4e40-bcc1-0d071e640c6d" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="670b123b-32cf-4229-ad8f-87298328c2be" message='#["End calling HTTP GET /carts/{id} request"]'/>
 	</flow>
 	<flow name="add-new-cart-flow" doc:id="53308396-b294-419c-a2e6-2834e938ffe6" >
@@ -52,6 +55,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				</http:request>
 				<error-handler ref="fakestore-error-handler" />
 			</try>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="2716ac00-c2ab-4d03-afbb-946e1516beed" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="a252cf3c-73e9-4662-83cd-fa732b9dc7b1" message='#["End calling HTTP POST /carts request"]'/>
 	</flow>
 	<flow name="update-cart-by-id-flow" doc:id="1099bf7b-62fb-4bf8-800e-b7e07fb735d3" >
@@ -72,6 +76,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				</http:request>
 				<error-handler ref="fakestore-error-handler" />
 			</try>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="18845aa1-a394-489c-857a-07e7ce49370d" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="7af8e281-4c27-4090-9b2c-b0bd5a616086" message='#["End calling HTTP PUT /carts request"]'/>
 	</flow>
 	<flow name="delete-cart-by-id-flow" doc:id="7da93350-3e7f-4028-849a-38b9f7189fb0" >
@@ -92,6 +97,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				</http:request>
 				<error-handler ref="fakestore-error-handler" />
 			</try>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="4739bcc3-0a88-4c47-a0b2-c705d9f79fdd" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="445e4170-9e8a-4769-bc67-9003deffff44" message='#["End calling HTTP DELETE /carts request"]'/>
 	</flow>
 </mule>

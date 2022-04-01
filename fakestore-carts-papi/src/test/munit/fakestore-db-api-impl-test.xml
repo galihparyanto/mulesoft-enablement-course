@@ -42,7 +42,16 @@
 			<flow-ref doc:name="Flow-ref to checkout-carts-flow" doc:id="15b5bdee-4977-497d-ad64-f4ccf3639d22" name="post:\checkout:application\json:fakestore-carts-prc-api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="6d51c106-8dd2-4870-a113-113afbe7eabd" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/checkout.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Equal To Expected Result" doc:id="6d51c106-8dd2-4870-a113-113afbe7eabd" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/checkout.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Not Null" doc:id="a386a38c-ab1a-4b70-9269-33c363b808cd" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-that doc:name="Assert that httpStatus Is 200" doc:id="bd7cb232-0d23-4598-85be-e8a6c4eb21f9" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(200)]" />
+			<munit-tools:verify-call doc:name="Verify Call - Log End" doc:id="f34c10af-9382-4fc7-af50-b59eb2abf4ed" processor="logger" atLeast="#[1]" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+					<munit-tools:with-attribute whereValue="INFO End Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue='#["End calling checkout cart transaction"]' attributeName="message" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 

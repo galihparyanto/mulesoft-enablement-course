@@ -30,7 +30,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 400" />
         </munit:validation>
     </munit:test>
 	<munit:test name="get:\health:fakestore-carts-prc-api-config-404-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-404-application\json]">
@@ -59,7 +59,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 404" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-405-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-405-application\json]">
@@ -88,7 +88,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(405)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 405" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(405)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 405" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-406-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-406-application\json]">
@@ -117,7 +117,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(406)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 406" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(406)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 406" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-415-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-415-application\json]">
@@ -146,7 +146,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(415)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 415" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(415)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 415" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-500-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-500-application\json]" ignore="true">
@@ -175,7 +175,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 500" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-501-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-501-application\json]">
@@ -204,7 +204,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(501)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 501" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(501)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 501" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-503-application\json-FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-503-application\json]" ignore="true">
@@ -233,7 +233,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 503" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-401--FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-401-]" ignore="true">
@@ -262,7 +262,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 401" />
         </munit:validation>
     </munit:test>
     <munit:test name="get:\health:fakestore-carts-prc-api-config-429--FlowTest" description="Verifying functionality of [get:\health:fakestore-carts-prc-api-config-429-]" ignore="true">
@@ -291,7 +291,7 @@
 			</try>
         </munit:execution>
 		<munit:validation>
-            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+            <munit-tools:assert-that expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert that httpStatus is 429" />
         </munit:validation>
     </munit:test>
 </mule>

@@ -34,6 +34,7 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="store-carts-into-db-subflow" doc:id="ec561e3e-3a3d-499e-ac07-a5f5c58939ff" name="store-carts-into-db-subflow"/>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="4d42ca42-1706-4c7c-8dc2-e47009b0a91c" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="71bb7548-f358-4a67-ad29-bfc4b981787d" message='#["End calling checkout cart transaction"]'/>
 	</flow>
 	<sub-flow name="get-all-products-subflow" doc:id="18f0d56e-cc0c-4ff4-b023-6e351905c796" >

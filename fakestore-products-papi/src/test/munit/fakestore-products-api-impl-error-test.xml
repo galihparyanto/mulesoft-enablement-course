@@ -33,7 +33,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="55d7659d-e40f-4ca2-ae1e-9d4bea9a89fe" message='#["Products not found"]' is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="55d7659d-e40f-4ca2-ae1e-9d4bea9a89fe" message='#["Products not found"]' is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-products-api-impl-test-get-all-products-paging-connectivity-error-flowTest" doc:id="d85216b3-4ad5-438f-aa81-5b72f3eeb4c7" description="Test">
@@ -64,7 +64,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="70e59636-cac6-466f-83ad-a3d08a271684" message='#["Products not found"]' expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="70e59636-cac6-466f-83ad-a3d08a271684" message='#["Products not found"]' expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-products-api-impl-test-get-product-by-id-connectivity-error-flowTest" doc:id="5084243c-9d78-4730-aa84-c8893e1fb574" description="Test">
@@ -95,7 +95,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="b7d40371-7cf9-4b88-874d-cf432d0afb35" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="b7d40371-7cf9-4b88-874d-cf432d0afb35" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-products-api-impl-test-get-all-products-expression-error-flowTest" doc:id="c3fd110b-e4b2-4d58-a53f-74d1bf6da2e9" description="Test">
@@ -127,7 +127,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="dbd5f882-add2-4e8c-aa1f-0d98398cd9b1" message='#["Products not found"]' is='#[MunitTools::equalTo("500")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 500" doc:id="dbd5f882-add2-4e8c-aa1f-0d98398cd9b1" message='#["Products not found"]' is='#[MunitTools::equalTo("500")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 

@@ -49,7 +49,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="3183040f-090c-4fa2-b36f-b71b8a7a00ec" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="3183040f-090c-4fa2-b36f-b71b8a7a00ec" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-db-api-impl-test-checkout-carts-expression-error-flowTest" doc:id="b5c489b9-821d-4f3d-acc0-ba503be57337" description="Test">
@@ -93,7 +93,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="a69fcae1-c75b-4966-b77e-3b011c48306d" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 500" doc:id="a69fcae1-c75b-4966-b77e-3b011c48306d" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
 			</munit:validation>
 		</munit:test>
 

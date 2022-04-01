@@ -90,6 +90,7 @@ vars.errorMsg default ({
 })]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="f39a57e9-eafc-4ee9-b196-cd23af13549b" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="45cb5e9f-461c-4277-afcd-6afb6aa073ae" message='#["End transaction inserting data into DB "]'/>
 		<error-handler ref="default-error-handler" />
 	</flow>

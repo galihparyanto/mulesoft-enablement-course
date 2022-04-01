@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:fakestore-carts-prc-api="http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api"
-	xmlns:fakestore-products-prc-api="http://www.mulesoft.org/schema/mule/fakestore-products-prc-api"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:fakestore-carts-prc-api="http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api"
+	xmlns:fakestore-products-prc-api="http://www.mulesoft.org/schema/mule/fakestore-products-prc-api" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/fakestore-products-prc-api http://www.mulesoft.org/schema/mule/fakestore-products-prc-api/current/mule-fakestore-products-prc-api.xsd
 http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api http://www.mulesoft.org/schema/mule/fakestore-carts-prc-api/current/mule-fakestore-carts-prc-api.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<flow name="get-all-products-flow" doc:id="d99272d4-8d9a-4ad5-b3b1-c0498a91f4dc" >
 		<logger level="INFO" doc:name="INFO Start Logger" doc:id="36e31e0a-9e5b-42f4-a08c-d5eff2334d15" message='#["Start calling Get All Products"]'/>
 		<try doc:name="Try" doc:id="52438d3c-a8c4-4cf3-bd6a-c1f44f0fd699">
@@ -20,6 +21,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:variables >
 			</ee:variables>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="ed1e8397-4796-48bd-b4ef-6ce8622678c1" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="dcb8cdf8-59a3-4783-a2e1-28d325f31b0c" message='#["End calling Get All Products"]'/>
 	</flow>
 	<flow name="get-product-by-id-flow" doc:id="cdf7bd14-c076-4e35-8569-711c37d22e2a" >
@@ -33,6 +35,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="bb90400f-e734-419e-a105-0cf4efee86bf" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="fd1a8ef4-dd92-493c-bb70-cf15359e3d25" message='#["End calling Get Product Detail"]'/>
 	</flow>
 	<flow name="get-all-carts-flow" doc:id="776fd32f-53b2-4b52-a994-e1d7046c55e3" >
@@ -46,6 +49,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="0b9ea0b7-9132-40e0-a9c1-c070afb8e7df" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="fb7c7bed-4775-43eb-aeb1-d318544368ef" message='#["End calling Get All Carts"]'/>
 	</flow>
 	<flow name="get-cart-by-id-flow" doc:id="d8e3123e-9b41-4670-8054-3d81a3bb70bd" >
@@ -60,6 +64,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="e31e9fb6-c773-4a5a-b770-31f20496abd2" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="14cf1c39-588e-40e1-bda7-ec2745e811b7" message='#["End calling Get Cart Detail"]'/>
 	</flow>
 	<flow name="add-new-cart-flow" doc:id="9591153a-f662-4e3b-886d-022a66a9509e" >
@@ -86,6 +91,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="62ca92d0-4fd1-4523-baf2-43611c685e55" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="acef84e7-640f-4212-a1e4-da760b409cd1" message='#["End calling Add New Cart"]'/>
 	</flow>
 	<flow name="update-cart-by-id-flow" doc:id="075ace2a-fed2-43a3-9d46-453c7365a3df" >
@@ -111,6 +117,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="6c7e7128-df52-415e-8248-3e964c03c3ef" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="d17f73cd-1f92-4ad2-97b8-91cee497af53" message='#["End calling Update Cart"]'/>
 	</flow>
 	<flow name="delete-cart-by-id-flow" doc:id="61a397fa-b516-4061-9d32-689c1b6bba97" >
@@ -136,6 +143,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="11946b33-5a63-4627-ae35-bf63bf5dd19f" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="3af34a96-5a6e-420d-a290-0f4c5ce8ef0e" message='#["End calling Delete Cart"]'/>
 	</flow>
 	<flow name="checkout-carts-flow" doc:id="ae8ff960-69eb-4f90-800c-57fc82af072f" >
@@ -161,6 +169,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="0e44a6af-90a5-4df3-8aec-8969c4677297" variableName="httpStatus" />
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="e8264e02-6204-4f51-ab34-af87103a74d8" message='#["End calling Checkout Cart"]'/>
 	</flow>
 </mule>

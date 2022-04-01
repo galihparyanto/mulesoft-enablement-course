@@ -44,6 +44,7 @@ vars.errorMsg default(vars.products default [])]]></ee:set-payload>
 				</ee:transform>
 			</otherwise>
 		</choice>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="190f3f73-ceb3-470d-b0a0-6bf14305df43" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="fe676b35-bd1e-4e25-b36f-4c89a5d221ad" message='#["End calling GET /products request"]'/>
 	</flow>
 	<flow name="get-product-by-id-flow" doc:id="ceee7f9f-8a0c-40b9-8e2f-dc959f7090e2" >
@@ -72,6 +73,7 @@ output application/json
 vars.errorMsg default(vars.products)]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="0300fa7c-27de-4833-828b-9d07d816197a" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="1a966790-5ca8-4c44-80db-c735165eeb08" message='#["Start calling GET /products/{id} request"]'/>
 	</flow>
 </mule>

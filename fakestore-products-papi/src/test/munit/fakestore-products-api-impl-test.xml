@@ -28,7 +28,16 @@
 			<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="cd6e87a9-cd85-4fe2-9048-f84456d0cba4" name="get:\products:fakestore-products-prc-api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Payload" doc:id="0035f417-c301-4ef1-9623-b1b9a8453b08" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/products.json'), 'application/json'))]" expression="#[payload]" message='#["Products not found"]'/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Equal To Expected Result" doc:id="0035f417-c301-4ef1-9623-b1b9a8453b08" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/products.json'), 'application/json'))]" expression="#[payload]" message='#["Products not found"]'/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Not Null" doc:id="74111fc0-b4d5-4ed5-8253-98f9af47a029" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-that doc:name="Assert that httpStatus Is 200" doc:id="bd9b3d29-d7dd-4e6e-a46e-0b7db2a91275" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(200)]" />
+			<munit-tools:verify-call doc:name="Verify Call - Log End" doc:id="01b55665-f407-4cf7-85fa-3ddae372d271" processor="logger" atLeast="#[1]" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+					<munit-tools:with-attribute whereValue="INFO End Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue='#["End calling GET /products request"]' attributeName="message" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 	<munit:test name="fakestore-products-api-impl-test-get-all-products-paging-flowTest" doc:id="f2b92ab2-123b-46e0-9e51-29ba7dda3126" description="Test">
@@ -59,8 +68,18 @@
 			<flow-ref doc:name="Flow-ref to get-all-products-flow" doc:id="08fabfd7-8535-4778-8ee1-7de76eb740be" name="get:\products:fakestore-products-prc-api-config" />
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="Size of Payload" doc:id="255e3838-0d8f-4e4c-9e96-035317f67db4" message='#["Products not found"]' expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]" />
-		</munit:validation>
+			<munit-tools:assert-that doc:name="Assert that Size of Payload Is Equal To Expected Result" doc:id="255e3838-0d8f-4e4c-9e96-035317f67db4" message='#["Products not found"]' expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]" />
+			<munit-tools:assert-that doc:name="Assert that Payload Is Not Null" doc:id="c6e97ee2-7680-42fc-a8a1-737463a84674" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-that doc:name="Assert that httpStatus Is 200" doc:id="04090c4c-f5ef-4d0d-b2f1-885876ac6577" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(200)]" />
+			<munit-tools:verify-call doc:name="Verify Call - Log End" doc:id="2053bf96-3fa4-44cb-a4cc-44407ae9145f" processor="logger" atLeast="#[1]" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+					<munit-tools:with-attribute whereValue="INFO End Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue='#["End calling GET /products request"]' attributeName="message" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		
+</munit:validation>
 	</munit:test>
 	<munit:test name="fakestore-products-api-impl-test-get-product-by-id-flowTest" doc:id="d3685cd8-69b6-49f2-91c4-174b42d71ac1" description="Test">
 		<munit:behavior >
@@ -82,7 +101,16 @@
 			<flow-ref doc:name="Flow-ref to get-product-by-id-flow" doc:id="e52013eb-b662-40ce-873a-2ab87edda090" name="get:\products\(id):fakestore-products-prc-api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="315b6842-7554-4c66-8e58-f704c888043c" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/product.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Equal To Expected Result" doc:id="315b6842-7554-4c66-8e58-f704c888043c" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/product.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Not Null" doc:id="18a0284a-cf90-4263-9084-db2991ae2803" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-that doc:name="Assert that httpStatus Is 200" doc:id="be7d3361-4ff9-441e-96e8-15a30c3bb027" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(200)]" />
+			<munit-tools:verify-call doc:name="Verify Call - Log End" doc:id="5999e23e-f03a-47ed-90d9-afa5fa497d35" processor="logger" atLeast="#[1]" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+					<munit-tools:with-attribute whereValue="INFO End Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue='#["Start calling GET /products/{id} request"]' attributeName="message" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 </mule>

@@ -47,6 +47,7 @@ var size = (vars.pageNum * vars.pageSize) - 1
 				</ee:transform>
 			</otherwise>
 		</choice>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="9ec2335f-dd9b-46d7-aae5-617072b4347b" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="d5954f4d-e300-40e5-a1ea-499b5f7a82d2" message='#["End calling HTTP GET /products request"]'/>
 	</flow>
 	<flow name="get-product-by-id-flow" doc:id="528c2608-68e1-4169-a97c-023e35673319" >
@@ -72,6 +73,7 @@ var size = (vars.pageNum * vars.pageSize) - 1
 				<ee:set-payload resource="transformation/general-response-mapping.dwl" />
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="b373da54-ef48-4201-a7ca-7427c146bfb4" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="af8e6d51-c2bd-4016-9f42-ee2f261e72fa" message='#["End calling HTTP GET /products/{id} request"]'/>
 	</flow>
 	<flow name="add-new-product-flow" doc:id="7ceaa04d-8420-4391-879f-e3ca97069193" >
@@ -105,6 +107,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="271f5b52-e61c-4d8b-8f0d-ed766f07b366" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="36717c15-ffa4-4fe0-9ac1-25a4bdd906e0" message='#["End calling HTTP POST /products request"]'/>
 	</flow>
 	<flow name="update-product-by-id-flow" doc:id="e91fd857-8a9d-477b-a8ff-72ca31295b20" >
@@ -142,6 +145,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="f783b157-c7ef-4772-b042-1aa9d1ec6175" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="0594b98b-397f-4ebb-98aa-c1893ec66fe9" message='#["End calling HTTP PUT /products request"]'/>
 	</flow>
 	<flow name="delete-product-by-id-flow" doc:id="02281ef1-acf3-4646-b4e1-bc6f77974d44" >
@@ -179,6 +183,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#[200]" doc:name="Set HTTP Status Code" doc:id="4014d3c3-d8ae-4523-b94d-c3e11836d4e7" variableName="httpStatus"/>
 		<logger level="INFO" doc:name="INFO End Logger" doc:id="80f1c7b7-f29e-49c6-a87e-6e8437f7b54d" message='#["End calling HTTP DELETE /products request"]'/>
 	</flow>
 </mule>

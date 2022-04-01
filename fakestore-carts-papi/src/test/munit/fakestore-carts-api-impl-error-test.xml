@@ -33,7 +33,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="c1a0986f-4ec7-4975-a2e9-705490be9f0e" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="c1a0986f-4ec7-4975-a2e9-705490be9f0e" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("503")]' />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-carts-api-impl-test-get-cart-by-id-connectivity-error-flowTest" doc:id="f0c84b2e-83a7-43dd-ab32-c5fbcfbb2376" description="Test">
@@ -61,7 +61,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="6a7d0f63-9033-4b4f-bd6b-beafc660a4b0" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="6a7d0f63-9033-4b4f-bd6b-beafc660a4b0" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-carts-api-impl-test-add-new-cart-connectivity-error-flowTest" doc:id="23e42c99-6274-4188-8347-e999edc55f22" description="Test">
@@ -89,7 +89,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="f59e634d-1795-41f8-8083-88835faab751" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="f59e634d-1795-41f8-8083-88835faab751" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-carts-api-impl-test-update-cart-by-id-connectivity-error-flowTest" doc:id="4ff4f091-bb89-4c3c-ab9e-2adc5b039210" description="Test">
@@ -117,7 +117,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="66846e98-99ea-43ea-b644-c0424840510a" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="66846e98-99ea-43ea-b644-c0424840510a" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-carts-api-impl-test-delete-cart-by-id-connectivity-error-flowTest" doc:id="515ac5e2-81b0-4e89-96e3-6469a3d41973" description="Test">
@@ -145,7 +145,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="8909c9a6-ca29-4925-918b-4ee55265632f" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 503" doc:id="8909c9a6-ca29-4925-918b-4ee55265632f" is='#[MunitTools::equalTo("503")]' expression="#[vars.httpStatus]" />
 			</munit:validation>
 		</munit:test>
 	<munit:test name="fakestore-carts-api-impl-test-get-all-carts-expression-error-flowTest" doc:id="7d49b4d4-19bd-4327-afec-78bbae06a440" description="Test">
@@ -173,7 +173,7 @@
 			</try>
 			</munit:execution>
 			<munit:validation>
-				<munit-tools:assert-that doc:name="HTTP Status Code" doc:id="82aaf69d-8309-4d86-800b-15c41299ffc1" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
+				<munit-tools:assert-that doc:name="Assert that httpStatus is 500" doc:id="82aaf69d-8309-4d86-800b-15c41299ffc1" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
 			</munit:validation>
 		</munit:test>
 

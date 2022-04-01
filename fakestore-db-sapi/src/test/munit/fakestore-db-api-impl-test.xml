@@ -28,7 +28,16 @@
 			<flow-ref doc:name="Flow-ref to insert-sales-into-database-flow" doc:id="e3400eb1-bcfe-4bd6-afb3-c6e99234df94" name="post:\checkout:application\json:fakestore-db-sys-api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Payload" doc:id="ba925b04-d05e-4990-b256-15ec0c0f880d" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/response.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Equal To Expected Result" doc:id="ba925b04-d05e-4990-b256-15ec0c0f880d" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('sample/response.json'), 'application/json'))]"/>
+			<munit-tools:assert-that doc:name="Assert that Payload Is Not Null" doc:id="def2523c-4b11-4ea0-8e74-12d28256989a" expression="#[payload]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-that doc:name="Assert that httpStatus Is 200" doc:id="145ba32b-d70d-4e77-80ff-1210f1970737" expression="#[vars.httpStatus]" is="#[MunitTools::equalTo(200)]" />
+			<munit-tools:verify-call doc:name="Verify Call - Log End" doc:id="f6c12813-4640-4b9c-9fab-9749681ceab2" processor="logger" atLeast="#[1]" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="INFO" attributeName="level" />
+					<munit-tools:with-attribute whereValue="INFO End Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue='#["End transaction inserting data into DB "]' attributeName="message" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
 
